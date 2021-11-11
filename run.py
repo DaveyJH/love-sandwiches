@@ -1,4 +1,3 @@
-from pprint import pprint
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -56,24 +55,21 @@ def validate_data(values):
     return True
 
 
-def update_sales_worksheet(data):
-    """
-    Update sales worksheet, add new row with the list data provided.
-    """
-    print("Updating sales worksheet...\n")
-    sales_worksheet = SHEET.worksheet("sales")
-    sales_worksheet.append_row(data)
-    print("Sales worksheet updated successfully.\n")
+def update_worksheet(data: list, worksheet: str):
+    """Updates a worksheet with a list of integers.
 
+    Receives a list of integers to be inserted into a worksheet.
+    Update the relevant worksheet with the data provided. Data
+    is appended as last row in worksheet.
 
-def update_surplus_worksheet(data):
+    Args:
+        data : data list to be appended to a worksheet
+        worksheet : name of the worksheet to be updated
     """
-    Update surplus worksheet, add new row with the list data provided.
-    """
-    print("Updating surplus worksheet...\n")
-    surplus_worksheet = SHEET.worksheet("surplus")
-    surplus_worksheet.append_row(data)
-    print("Surplus worksheet updated successfully.\n")
+    print(f"Updating {worksheet} worksheet...\n")
+    current_worksheet = SHEET.worksheet(worksheet)
+    current_worksheet.append_row(data)
+    print(f"{worksheet} worksheet updated successfully.\n".capitalize())
 
 
 def calculate_surplus_data(sales_row):
@@ -99,9 +95,9 @@ def main():
     """
     data = get_sales_data()
     sales_data = [int(num) for num in data]
-    update_sales_worksheet(sales_data)
+    update_worksheet(sales_data, "sales")
     surplus_data = calculate_surplus_data(sales_data)
-    update_surplus_worksheet(surplus_data)
+    update_worksheet(surplus_data, "surplus")
 
 
 print("Welcome to Love Sandwiches Data Automation")
