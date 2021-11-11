@@ -37,8 +37,8 @@ def get_sales_data():
         print("Data should be six numbers, separated by commas.")
         print("Example: 10,20,30,40,50,60\n")
 
-        data_str = input("Enter your data here:")
-        print("")
+        # !heroku deployment requires newline character at the end of inputs!
+        data_str = input("Enter your data here:\n")
         sales_data = data_str.split(",")
 
         if validate_data(sales_data):
@@ -126,7 +126,7 @@ def get_last_5_entries_sales() -> list[list[str]]:
         string values.
     """
     sales = SHEET.worksheet("sales")
-    # index for gspread starts at 1!!
+    # !index for gspread starts at 1!!
     columns = [sales.col_values(column)[-5:] for column in range(1, 7)]
     return columns
 
